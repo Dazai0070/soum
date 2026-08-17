@@ -8,6 +8,9 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
+    <meta name="description"
+          content="سومه - حاسبة المعدل الجامعي الاحترافية بنظام 4.0، احسب معدلك الفصلي والتراكمي بدقة.">
+
     <title>سومه - حاسبة المعدل الجامعي</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap"
@@ -98,6 +101,7 @@
                 );
 
             -webkit-background-clip: text;
+            background-clip: text;
 
             -webkit-text-fill-color: transparent;
         }
@@ -197,6 +201,11 @@
             color: #94a3b8;
         }
 
+        .input-group.invalid {
+            border-color:
+                rgba(239, 68, 68, 0.6);
+        }
+
 
         /* COURSE ROW */
 
@@ -266,6 +275,11 @@
             background: #0f172a;
 
             color: white;
+        }
+
+        .course-hours.invalid {
+            border-color:
+                rgba(239, 68, 68, 0.6);
         }
 
 
@@ -443,6 +457,16 @@
             color: #94a3b8;
         }
 
+        .calculation-info.error {
+            background:
+                rgba(239, 68, 68, 0.08);
+
+            border-color:
+                rgba(239, 68, 68, 0.3);
+
+            color: #fca5a5;
+        }
+
 
         /* FOOTER */
 
@@ -533,7 +557,7 @@
         </div>
 
 
-        <div class="input-group">
+        <div class="input-group" id="groupPrevGpa">
 
             <input
                 type="number"
@@ -549,7 +573,7 @@
         </div>
 
 
-        <div class="input-group">
+        <div class="input-group" id="groupPrevHours">
 
             <input
                 type="number"
@@ -563,7 +587,7 @@
         </div>
 
 
-        <div class="input-group">
+        <div class="input-group" id="groupPrevPoints">
 
             <input
                 type="number"
@@ -592,83 +616,7 @@
         </div>
 
 
-        <div id="coursesList">
-
-
-            <!-- المادة الأولى -->
-
-            <div class="course-row">
-
-                <button
-                    type="button"
-                    class="btn-delete"
-                    onclick="removeCourse(this)"
-                >
-                    <i class="fa-solid fa-trash-can"></i>
-                    حذف
-                </button>
-
-
-                <input
-                    type="number"
-                    class="course-hours"
-                    min="1"
-                    max="6"
-                    value="3"
-                    placeholder="الساعات"
-                >
-
-
-                <select class="course-grade">
-
-                    <option value="4">
-                        A+ (4.0)
-                    </option>
-
-                    <option value="3.75">
-                        A (3.75)
-                    </option>
-
-                    <option value="3.5">
-                        B+ (3.5)
-                    </option>
-
-                    <option value="3">
-                        B (3.0)
-                    </option>
-
-                    <option value="2.5">
-                        C+ (2.5)
-                    </option>
-
-                    <option value="2">
-                        C (2.0)
-                    </option>
-
-                    <option value="1.5">
-                        D+ (1.5)
-                    </option>
-
-                    <option value="1">
-                        D (1.0)
-                    </option>
-
-                    <option value="0">
-                        F (0.0)
-                    </option>
-
-                </select>
-
-
-                <input
-                    type="text"
-                    class="course-name"
-                    placeholder="اسم المادة"
-                >
-
-            </div>
-
-        </div>
+        <div id="coursesList"></div>
 
 
         <!-- ADD COURSE -->
@@ -748,7 +696,7 @@
 
     <!-- INFO -->
 
-    <div class="calculation-info">
+    <div class="calculation-info" id="infoBox">
 
         <span id="calculationInfo">
             أدخل مواد الفصل الحالي واضغط على احسب المعدل
@@ -785,7 +733,120 @@
 </div>
 
 
+<!-- قالب خيارات التقديرات -->
+<template id="gradeOptions">
+    <option value="4">A+ (4.0)</option>
+    <option value="3.75">A (3.75)</option>
+    <option value="3.5">B+ (3.5)</option>
+    <option value="3">B (3.0)</option>
+    <option value="2.5">C+ (2.5)</option>
+    <option value="2">C (2.0)</option>
+    <option value="1.5">D+ (1.5)</option>
+    <option value="1">D (1.0)</option>
+    <option value="0">F (0.0)</option>
+</template>
+
+
 <script>
+
+
+/* =====================================================
+   ثوابت وأدوات مساعدة
+===================================================== */
+
+const GPA_MAX = 4.0;
+
+const coursesList =
+    document.getElementById("coursesList");
+
+const infoBox =
+    document.getElementById("infoBox");
+
+const calculationInfo =
+    document.getElementById("calculationInfo");
+
+
+function setInfo(message, isError = false) {
+
+    calculationInfo.textContent = message;
+
+    infoBox.classList.toggle("error", isError);
+
+}
+
+
+
+/* =====================================================
+   إنشاء صف مادة جديد
+===================================================== */
+
+function createCourseRow() {
+
+    const courseRow =
+        document.createElement("div");
+
+    courseRow.className = "course-row";
+
+    /* زر الحذف */
+
+    const deleteBtn =
+        document.createElement("button");
+
+    deleteBtn.type = "button";
+    deleteBtn.className = "btn-delete";
+    deleteBtn.innerHTML =
+        '<i class="fa-solid fa-trash-can"></i> حذف';
+    deleteBtn.addEventListener(
+        "click",
+        function () { removeCourse(deleteBtn); }
+    );
+
+    /* الساعات */
+
+    const hoursInput =
+        document.createElement("input");
+
+    hoursInput.type = "number";
+    hoursInput.className = "course-hours";
+    hoursInput.min = "1";
+    hoursInput.max = "6";
+    hoursInput.value = "3";
+    hoursInput.placeholder = "الساعات";
+    hoursInput.addEventListener("input", function () {
+        hoursInput.classList.remove("invalid");
+    });
+
+    /* التقدير */
+
+    const gradeSelect =
+        document.createElement("select");
+
+    gradeSelect.className = "course-grade";
+    gradeSelect.appendChild(
+        document.getElementById("gradeOptions")
+            .content.cloneNode(true)
+    );
+
+    /* اسم المادة */
+
+    const nameInput =
+        document.createElement("input");
+
+    nameInput.type = "text";
+    nameInput.className = "course-name";
+    nameInput.placeholder = "اسم المادة";
+
+    /* الترتيب في RTL: حذف، ساعات، تقدير، اسم */
+
+    courseRow.appendChild(deleteBtn);
+    courseRow.appendChild(hoursInput);
+    courseRow.appendChild(gradeSelect);
+    courseRow.appendChild(nameInput);
+
+    return courseRow;
+
+}
+
 
 
 /* =====================================================
@@ -794,94 +855,7 @@
 
 function addCourse() {
 
-    const coursesList =
-        document.getElementById("coursesList");
-
-
-    const courseRow =
-        document.createElement("div");
-
-
-    courseRow.className =
-        "course-row";
-
-
-    courseRow.innerHTML = `
-
-        <button
-            type="button"
-            class="btn-delete"
-            onclick="removeCourse(this)"
-        >
-
-            <i class="fa-solid fa-trash-can"></i>
-
-            حذف
-
-        </button>
-
-
-        <input
-            type="number"
-            class="course-hours"
-            min="1"
-            max="6"
-            value="3"
-            placeholder="الساعات"
-        >
-
-
-        <select class="course-grade">
-
-            <option value="4">
-                A+ (4.0)
-            </option>
-
-            <option value="3.75">
-                A (3.75)
-            </option>
-
-            <option value="3.5">
-                B+ (3.5)
-            </option>
-
-            <option value="3">
-                B (3.0)
-            </option>
-
-            <option value="2.5">
-                C+ (2.5)
-            </option>
-
-            <option value="2">
-                C (2.0)
-            </option>
-
-            <option value="1.5">
-                D+ (1.5)
-            </option>
-
-            <option value="1">
-                D (1.0)
-            </option>
-
-            <option value="0">
-                F (0.0)
-            </option>
-
-        </select>
-
-
-        <input
-            type="text"
-            class="course-name"
-            placeholder="اسم المادة"
-        >
-
-    `;
-
-
-    coursesList.appendChild(courseRow);
+    coursesList.appendChild(createCourseRow());
 
 }
 
@@ -896,19 +870,60 @@ function removeCourse(button) {
     const rows =
         document.querySelectorAll(".course-row");
 
-
     if (rows.length === 1) {
 
-        alert(
-            "يجب أن تبقى مادة واحدة على الأقل"
+        setInfo(
+            "يجب أن تبقى مادة واحدة على الأقل",
+            true
         );
 
         return;
 
     }
 
-
     button.closest(".course-row").remove();
+
+    setInfo(
+        "أدخل مواد الفصل الحالي واضغط على احسب المعدل"
+    );
+
+}
+
+
+
+/* =====================================================
+   قراءة حقل رقمي سابق
+===================================================== */
+
+function readPrevField(inputId, groupId) {
+
+    const input =
+        document.getElementById(inputId);
+
+    const group =
+        document.getElementById(groupId);
+
+    const raw = input.value.trim();
+
+    group.classList.remove("invalid");
+
+    if (raw === "") {
+
+        return { provided: false, value: 0 };
+
+    }
+
+    const value = parseFloat(raw);
+
+    if (isNaN(value) || value < 0) {
+
+        group.classList.add("invalid");
+
+        return { provided: true, value: NaN };
+
+    }
+
+    return { provided: true, value };
 
 }
 
@@ -921,6 +936,10 @@ function removeCourse(button) {
 function calculateGpa() {
 
 
+    /* ===============================================
+       قراءة مواد الفصل الحالي
+    =============================================== */
+
     const rows =
         document.querySelectorAll(".course-row");
 
@@ -931,74 +950,64 @@ function calculateGpa() {
 
     let validCourses = 0;
 
+    let hasInvalidRow = false;
 
 
-    /* ===============================================
-       حساب جميع مواد الفصل الحالي
-    =============================================== */
-
-    rows.forEach(function(row) {
-
+    rows.forEach(function (row) {
 
         const hoursElement =
             row.querySelector(".course-hours");
 
-
         const gradeElement =
             row.querySelector(".course-grade");
 
+        hoursElement.classList.remove("invalid");
 
         const hours =
             parseFloat(hoursElement.value);
 
-
         const grade =
             parseFloat(gradeElement.value);
 
+        /* ساعات غير صالحة: تنبيه المستخدم */
 
+        if (isNaN(hours) || hours <= 0) {
 
-        if (
-            isNaN(hours) ||
-            hours <= 0
-        ) {
+            if (hoursElement.value.trim() !== "") {
 
-            return;
+                hoursElement.classList.add("invalid");
 
-        }
+                hasInvalidRow = true;
 
-
-        if (
-            isNaN(grade) ||
-            grade < 0
-        ) {
+            }
 
             return;
 
         }
 
+        if (isNaN(grade) || grade < 0) {
 
+            return;
 
-        /* نقاط المادة */
+        }
 
-        const coursePoints =
-            hours * grade;
+        semesterPoints += hours * grade;
 
-
-
-        /* إضافة المادة */
-
-        semesterPoints +=
-            coursePoints;
-
-
-        semesterHours +=
-            hours;
-
+        semesterHours += hours;
 
         validCourses++;
 
     });
 
+
+    if (hasInvalidRow) {
+
+        setInfo(
+            "تأكد من عدد الساعات في المواد المحددة",
+            true
+        );
+
+    }
 
 
     /* ===============================================
@@ -1007,15 +1016,12 @@ function calculateGpa() {
 
     let semesterGpa = 0;
 
-
     if (semesterHours > 0) {
 
         semesterGpa =
-            semesterPoints /
-            semesterHours;
+            semesterPoints / semesterHours;
 
     }
-
 
     document.getElementById(
         "semesterGpa"
@@ -1028,41 +1034,61 @@ function calculateGpa() {
        بيانات المعدل السابق
     =============================================== */
 
-    const prevGpaInput =
-        document.getElementById(
-            "prevGpa"
-        );
-
-
-    const prevHoursInput =
-        document.getElementById(
-            "prevHours"
-        );
-
-
-    const prevPointsInput =
-        document.getElementById(
-            "prevPoints"
-        );
-
-
-
     const prevGpa =
-        parseFloat(
-            prevGpaInput.value
-        );
-
+        readPrevField("prevGpa", "groupPrevGpa");
 
     const prevHours =
-        parseFloat(
-            prevHoursInput.value
-        );
-
+        readPrevField("prevHours", "groupPrevHours");
 
     const prevPoints =
-        parseFloat(
-            prevPointsInput.value
+        readPrevField("prevPoints", "groupPrevPoints");
+
+
+    /* تحقق من صحة القيم المدخلة */
+
+    if (
+        isNaN(prevGpa.value) ||
+        isNaN(prevHours.value) ||
+        isNaN(prevPoints.value)
+    ) {
+
+        setInfo(
+            "تأكد من صحة بيانات الفصول السابقة",
+            true
         );
+
+        document.getElementById(
+            "cumulativeGpa"
+        ).textContent = "—";
+
+        return;
+
+    }
+
+
+    /* المعدل السابق لا يتجاوز الحد الأعلى */
+
+    if (
+        prevGpa.provided &&
+        prevGpa.value > GPA_MAX
+    ) {
+
+        document.getElementById("groupPrevGpa")
+            .classList.add("invalid");
+
+        setInfo(
+            "المعدل السابق لا يمكن أن يتجاوز " +
+            GPA_MAX.toFixed(1),
+            true
+        );
+
+        document.getElementById(
+            "cumulativeGpa"
+        ).textContent = "—";
+
+        return;
+
+    }
 
 
 
@@ -1071,97 +1097,10 @@ function calculateGpa() {
     =============================================== */
 
     const hasPreviousGpa =
-        prevGpaInput.value.trim() !== "" &&
-        prevHoursInput.value.trim() !== "" &&
-        !isNaN(prevGpa) &&
-        !isNaN(prevHours) &&
-        prevHours > 0;
-
+        prevGpa.provided &&
+        prevHours.provided &&
+        prevHours.value > 0;
 
     const hasPreviousPoints =
-        prevPointsInput.value.trim() !== "" &&
-        prevHoursInput.value.trim() !== "" &&
-        !isNaN(prevPoints) &&
-        !isNaN(prevHours) &&
-        prevHours > 0;
-
-
-
-    /* ===============================================
-       حساب المعدل التراكمي
-    =============================================== */
-
-    let cumulativeGpa = null;
-
-
-
-    /* إجمالي النقاط */
-
-    if (hasPreviousPoints) {
-
-
-        const totalPoints =
-            prevPoints +
-            semesterPoints;
-
-
-        const totalHours =
-            prevHours +
-            semesterHours;
-
-
-        if (totalHours > 0) {
-
-            cumulativeGpa =
-                totalPoints /
-                totalHours;
-
-        }
-
-    }
-
-
-    /* المعدل السابق */
-
-    else if (hasPreviousGpa) {
-
-
-        const previousTotalPoints =
-            prevGpa *
-            prevHours;
-
-
-        const totalPoints =
-            previousTotalPoints +
-            semesterPoints;
-
-
-        const totalHours =
-            prevHours +
-            semesterHours;
-
-
-        if (totalHours > 0) {
-
-            cumulativeGpa =
-                totalPoints /
-                totalHours;
-
-        }
-
-    }
-
-
-
-    /* ===============================================
-       عرض المعدل التراكمي
-    =============================================== */
-
-    const cumulativeElement =
-        document.getElementById(
-            "cumulativeGpa"
-        );
-
-
-    if (
-      
+        prevPoints.provided &&
+        prevHours.
