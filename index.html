@@ -101,6 +101,7 @@
         .input-group i {
             color: #94a3b8;
             font-size: 15px;
+            margin-left: 5px;
         }
         .course-row {
             display: flex;
@@ -254,15 +255,15 @@
                 <i class="fa-solid fa-chart-column"></i>
             </div>
             <div class="input-group">
-                <input type="number" step="0.01" placeholder="مثال: 3.50" id="prevGpa">
+                <input type="number" step="0.01" placeholder="المعدل السابق" id="prevGpa">
                 <i class="fa-regular fa-calendar"></i>
             </div>
             <div class="input-group">
-                <input type="number" placeholder="مثال: 60" id="prevHours">
+                <input type="number" placeholder="الساعات المكتسبة" id="prevHours">
                 <i class="fa-regular fa-clock"></i>
             </div>
             <div class="input-group">
-                <input type="number" placeholder="مثال: 210" id="prevPoints">
+                <input type="number" placeholder="إجمالي النقاط" id="prevPoints">
                 <i class="fa-regular fa-star"></i>
             </div>
         </div>
@@ -372,9 +373,10 @@
             const semGpa = currentHours > 0 ? (currentPoints / currentHours) : 0;
             document.getElementById('semesterGpa').innerText = semGpa.toFixed(2);
 
-            const prevGpaInput = parseFloat(document.getElementById('prevGpa').value);
+            const prevGpaInput = parseFloat(document.getElementById.id = 'prevGpa'.value) || document.getElementById('prevGpa').value;
             const prevHoursInput = parseFloat(document.getElementById('prevHours').value);
             const prevPointsInput = parseFloat(document.getElementById('prevPoints').value);
+            const prevGpaVal = parseFloat(document.getElementById('prevGpa').value);
 
             let totalPoints = currentPoints;
             let totalHours = currentHours;
@@ -382,8 +384,8 @@
             if (!isNaN(prevHoursInput) && !isNaN(prevPointsInput)) {
                 totalPoints += prevPointsInput;
                 totalHours += prevHoursInput;
-            } else if (!isNaN(prevGpaInput) && !isNaN(prevHoursInput)) {
-                totalPoints += (prevGpaInput * prevHoursInput);
+            } else if (!isNaN(prevGpaVal) && !isNaN(prevHoursInput)) {
+                totalPoints += (prevGpaVal * prevHoursInput);
                 totalHours += prevHoursInput;
             }
 
