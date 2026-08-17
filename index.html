@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>سومه - حاسبة المعدل الجامعي الاحترافية</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         * {
             box-sizing: border-box;
@@ -13,385 +18,1052 @@
             padding: 0;
             font-family: 'Cairo', sans-serif;
         }
+
         body {
             background-color: #070919;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(30, 41, 89, 0.4) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(45, 27, 105, 0.3) 0%, transparent 40%);
+
+            background-image:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(30, 41, 89, 0.4) 0%,
+                    transparent 40%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(45, 27, 105, 0.3) 0%,
+                    transparent 40%
+                );
+
             color: #ffffff;
             min-height: 100vh;
+
             display: flex;
             justify-content: center;
+
             padding: 20px 10px;
         }
+
         .container {
             width: 100%;
             max-width: 480px;
+
             display: flex;
             flex-direction: column;
+
             gap: 20px;
         }
+
+        /* =========================
+           HEADER
+        ========================= */
+
         .header {
             text-align: center;
             margin-top: 10px;
         }
+
         .header i.fa-graduation-cap {
             font-size: 45px;
+
             color: #60a5fa;
+
             margin-bottom: 10px;
-            filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.5));
+
+            filter:
+                drop-shadow(
+                    0 0 10px
+                    rgba(96, 165, 250, 0.5)
+                );
         }
+
         .header h1 {
             font-size: 32px;
             font-weight: 800;
-            background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #a78bfa 0%,
+                    #60a5fa 100%
+                );
+
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+
             margin-bottom: 5px;
         }
+
         .header p {
             font-size: 13px;
             color: #94a3b8;
         }
+
+        /* =========================
+           CARDS
+        ========================= */
+
         .card {
             background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
             border-radius: 20px;
+
             padding: 20px;
+
             backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.5);
         }
+
         .card-title {
             display: flex;
+
             align-items: center;
+
             justify-content: flex-end;
+
             gap: 8px;
+
             font-size: 16px;
+
             font-weight: 700;
+
             color: #38bdf8;
+
             margin-bottom: 15px;
         }
+
+        /* =========================
+           INPUTS
+        ========================= */
+
         .input-group {
             margin-bottom: 12px;
+
             display: flex;
+
             align-items: center;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+
+            background:
+                rgba(30, 41, 59, 0.5);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.07);
+
             border-radius: 12px;
+
             padding: 0 12px;
+
             transition: all 0.3s;
         }
+
         .input-group:focus-within {
             border-color: #38bdf8;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+
+            box-shadow:
+                0 0 10px
+                rgba(56, 189, 248, 0.2);
         }
+
         .input-group input {
             width: 100%;
+
             background: transparent;
+
             border: none;
+
             padding: 12px 8px;
+
             color: #fff;
+
             font-size: 14px;
+
             outline: none;
+
             text-align: right;
         }
+
         .input-group input::placeholder {
             color: #64748b;
         }
+
         .input-group i {
             color: #94a3b8;
+
             font-size: 15px;
+
             margin-left: 5px;
         }
+
+        /* =========================
+           COURSE
+        ========================= */
+
         .course-row {
             display: flex;
+
             gap: 8px;
+
             margin-bottom: 10px;
+
             align-items: center;
-            background: rgba(30, 41, 59, 0.4);
+
+            background:
+                rgba(30, 41, 59, 0.4);
+
             padding: 10px;
+
             border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.05);
         }
+
         .course-row input.course-name {
             flex: 2;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            background:
+                rgba(15, 23, 42, 0.6);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
             border-radius: 10px;
+
             padding: 10px;
+
             color: #fff;
+
             outline: none;
+
             text-align: right;
+
             font-size: 13px;
         }
-        .course-row select, .course-row input.course-hours {
+
+        .course-row select,
+        .course-row input.course-hours {
             flex: 1;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            background:
+                rgba(15, 23, 42, 0.6);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
             border-radius: 10px;
+
             padding: 10px;
+
             color: #fff;
+
             outline: none;
+
             text-align: center;
+
             font-size: 13px;
         }
+
+        .course-row select option {
+            background: #0f172a;
+            color: white;
+        }
+
+        /* =========================
+           DELETE BUTTON
+        ========================= */
+
         .btn-delete {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background:
+                rgba(239, 68, 68, 0.15);
+
+            border:
+                1px solid
+                rgba(239, 68, 68, 0.3);
+
             color: #f87171;
+
             padding: 10px 12px;
+
             border-radius: 10px;
+
             cursor: pointer;
+
             transition: 0.2s;
+
             font-size: 13px;
+
             display: flex;
+
             align-items: center;
+
             gap: 5px;
         }
+
         .btn-delete:hover {
-            background: rgba(239, 68, 68, 0.3);
+            background:
+                rgba(239, 68, 68, 0.3);
         }
+
+        /* =========================
+           ADD BUTTON
+        ========================= */
+
         .btn-add {
             width: 100%;
+
             background: transparent;
-            border: 1px dashed rgba(56, 189, 248, 0.4);
+
+            border:
+                1px dashed
+                rgba(56, 189, 248, 0.4);
+
             color: #38bdf8;
+
             padding: 12px;
+
             border-radius: 12px;
+
             font-weight: 600;
+
             cursor: pointer;
+
             margin-top: 5px;
+
             transition: 0.2s;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 8px;
         }
+
         .btn-add:hover {
-            background: rgba(56, 189, 248, 0.05);
+            background:
+                rgba(56, 189, 248, 0.05);
+
             border-color: #38bdf8;
         }
+
+        /* =========================
+           CALCULATE
+        ========================= */
+
         .btn-calculate {
             width: 100%;
-            background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb 0%,
+                    #06b6d4 100%
+                );
+
             border: none;
+
             color: white;
+
             padding: 15px;
+
             border-radius: 14px;
+
             font-size: 16px;
+
             font-weight: 700;
+
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
+
+            box-shadow:
+                0 4px 20px
+                rgba(6, 182, 212, 0.4);
+
             transition: 0.3s;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 10px;
         }
+
         .btn-calculate:hover {
             opacity: 0.9;
+
             transform: translateY(-2px);
         }
+
+        /* =========================
+           RESULTS
+        ========================= */
+
         .results-grid {
             display: grid;
+
             grid-template-columns: 1fr 1fr;
+
             gap: 15px;
         }
+
         .result-box {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                rgba(15, 23, 42, 0.8);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
             border-radius: 16px;
+
             padding: 15px;
+
             text-align: center;
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
+
             justify-content: center;
         }
+
         .result-box i {
             font-size: 24px;
+
             color: #38bdf8;
+
             margin-bottom: 8px;
         }
+
         .result-box span.title {
             font-size: 12px;
+
             color: #94a3b8;
+
             margin-bottom: 5px;
         }
+
         .result-box span.value {
             font-size: 24px;
+
             font-weight: 800;
+
             color: #34d399;
         }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
         .footer {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             font-size: 12px;
+
             color: #64748b;
+
             padding: 0 5px;
+
             margin-top: -5px;
         }
+
         .footer a {
             color: #38bdf8;
+
             text-decoration: none;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 400px) {
+
+            .course-row {
+                gap: 5px;
+
+                padding: 7px;
+            }
+
+            .course-row input.course-name,
+            .course-row select,
+            .course-row input.course-hours {
+                padding: 8px 5px;
+
+                font-size: 11px;
+            }
+
+            .btn-delete {
+                padding: 8px;
+
+                font-size: 11px;
+            }
+
+            .btn-delete i {
+                margin: 0;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <div class="container">
-        <!-- رأس الصفحة -->
-        <div class="header">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <h1>سومه</h1>
-            <p>حاسبة المعدل الجامعي الاحترافية (4.0)</p>
-        </div>
+<div class="container">
 
-        <!-- بيانات الفصول السابقة -->
-        <div class="card">
-            <div class="card-title">
-                بيانات الفصول السابقة (اختياري)
-                <i class="fa-solid fa-chart-column"></i>
-            </div>
-            <div class="input-group">
-                <input type="number" step="0.01" placeholder="المعدل السابق" id="prevGpa">
-                <i class="fa-regular fa-calendar"></i>
-            </div>
-            <div class="input-group">
-                <input type="number" placeholder="الساعات المكتسبة" id="prevHours">
-                <i class="fa-regular fa-clock"></i>
-            </div>
-            <div class="input-group">
-                <input type="number" placeholder="إجمالي النقاط" id="prevPoints">
-                <i class="fa-regular fa-star"></i>
-            </div>
-        </div>
+    <!-- =========================
+         HEADER
+    ========================= -->
 
-        <!-- مواد الفصل الحالي -->
-        <div class="card">
-            <div class="card-title">
-                مواد الفصل الحالي
-                <i class="fa-solid fa-book-open"></i>
-            </div>
-            
-            <div id="coursesList">
-                <div class="course-row">
-                    <button class="btn-delete" onclick="removeCourse(this)"><i class="fa-solid fa-trash-can"></i> حذف</button>
-                    <input type="number" class="course-hours" placeholder="الساعات" value="3" min="1" max="6">
-                    <select class="course-grade">
-                        <option value="4.0">A+ (4.0)</option>
-                        <option value="3.75">A (3.75)</option>
-                        <option value="3.5">B+ (3.5)</option>
-                        <option value="3.0">B (3.0)</option>
-                        <option value="2.5">C+ (2.5)</option>
-                        <option value="2.0">C (2.0)</option>
-                        <option value="1.5">D+ (1.5)</option>
-                        <option value="1.0">D (1.0)</option>
-                        <option value="0.0">F (0.0)</option>
-                    </select>
-                    <input type="text" class="course-name" placeholder="اسم المادة">
-                </div>
-            </div>
+    <div class="header">
 
-            <button class="btn-add" onclick="addCourse()">
-                <i class="fa-solid fa-plus"></i> إضافة مادة أخرى
-            </button>
-        </div>
+        <i class="fa-solid fa-graduation-cap"></i>
 
-        <!-- زر الحساب -->
-        <button class="btn-calculate" onclick="calculateGpa()">
-            <i class="fa-solid fa-calculator"></i> احسب المعدل بدقة
-        </button>
+        <h1>سومه</h1>
 
-        <!-- النتائج -->
-        <div class="results-grid">
-            <div class="result-box">
-                <i class="fa-solid fa-layer-group"></i>
-                <span class="title">المعدل التراكمي الجديد</span>
-                <span class="value" id="cumulativeGpa">0.00</span>
-            </div>
-            <div class="result-box">
-                <i class="fa-solid fa-chart-pie"></i>
-                <span class="title">المعدل الفصلي الحالي</span>
-                <span class="value" id="semesterGpa">0.00</span>
-            </div>
-        </div>
+        <p>
+            حاسبة المعدل الجامعي الاحترافية (4.0)
+        </p>
 
-        <!-- الفوتر -->
-        <div class="footer">
-            <span>Design by Dazai</span>
-            <span>Instagram: <a href="https://instagram.com/t_om_s1" target="_blank">@t_om_s1</a></span>
-        </div>
     </div>
 
-    <script>
-        function addCourse() {
-            const list = document.getElementById('coursesList');
-            const row = document.createElement('div');
-            row.className = 'course-row';
-            row.innerHTML = `
-                <button class="btn-delete" onclick="removeCourse(this)"><i class="fa-solid fa-trash-can"></i> حذف</button>
-                <input type="number" class="course-hours" placeholder="الساعات" value="3" min="1" max="6">
+
+    <!-- =========================
+         PREVIOUS DATA
+    ========================= -->
+
+    <div class="card">
+
+        <div class="card-title">
+
+            بيانات الفصول السابقة (اختياري)
+
+            <i class="fa-solid fa-chart-column"></i>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                max="4"
+                placeholder="المعدل السابق"
+                id="prevGpa"
+            >
+
+            <i class="fa-regular fa-calendar"></i>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <input
+                type="number"
+                min="0"
+                placeholder="الساعات المكتسبة"
+                id="prevHours"
+            >
+
+            <i class="fa-regular fa-clock"></i>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <input
+                type="number"
+                min="0"
+                placeholder="إجمالي النقاط"
+                id="prevPoints"
+            >
+
+            <i class="fa-regular fa-star"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         CURRENT COURSES
+    ========================= -->
+
+    <div class="card">
+
+        <div class="card-title">
+
+            مواد الفصل الحالي
+
+            <i class="fa-solid fa-book-open"></i>
+
+        </div>
+
+
+        <div id="coursesList">
+
+            <div class="course-row">
+
+                <button
+                    class="btn-delete"
+                    onclick="removeCourse(this)"
+                >
+
+                    <i class="fa-solid fa-trash-can"></i>
+
+                    حذف
+
+                </button>
+
+
+                <input
+                    type="number"
+                    class="course-hours"
+                    placeholder="الساعات"
+                    value="3"
+                    min="1"
+                    max="6"
+                >
+
+
                 <select class="course-grade">
-                    <option value="4.0">A+ (4.0)</option>
-                    <option value="3.75">A (3.75)</option>
-                    <option value="3.5">B+ (3.5)</option>
-                    <option value="3.0">B (3.0)</option>
-                    <option value="2.5">C+ (2.5)</option>
-                    <option value="2.0">C (2.0)</option>
-                    <option value="1.5">D+ (1.5)</option>
-                    <option value="1.0">D (1.0)</option>
-                    <option value="0.0">F (0.0)</option>
+
+                    <option value="4.0">
+                        A+ (4.0)
+                    </option>
+
+                    <option value="3.75">
+                        A (3.75)
+                    </option>
+
+                    <option value="3.5">
+                        B+ (3.5)
+                    </option>
+
+                    <option value="3.0">
+                        B (3.0)
+                    </option>
+
+                    <option value="2.5">
+                        C+ (2.5)
+                    </option>
+
+                    <option value="2.0">
+                        C (2.0)
+                    </option>
+
+                    <option value="1.5">
+                        D+ (1.5)
+                    </option>
+
+                    <option value="1.0">
+                        D (1.0)
+                    </option>
+
+                    <option value="0.0">
+                        F (0.0)
+                    </option>
+
                 </select>
-                <input type="text" class="course-name" placeholder="اسم المادة">
-            `;
-            list.appendChild(row);
+
+
+                <input
+                    type="text"
+                    class="course-name"
+                    placeholder="اسم المادة"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn-add"
+            onclick="addCourse()"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            إضافة مادة أخرى
+
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         CALCULATE BUTTON
+    ========================= -->
+
+    <button
+        class="btn-calculate"
+        onclick="calculateGpa()"
+    >
+
+        <i class="fa-solid fa-calculator"></i>
+
+        احسب المعدل بدقة
+
+    </button>
+
+
+    <!-- =========================
+         RESULTS
+    ========================= -->
+
+    <div class="results-grid">
+
+        <div class="result-box">
+
+            <i class="fa-solid fa-layer-group"></i>
+
+            <span class="title">
+                المعدل التراكمي الجديد
+            </span>
+
+            <span
+                class="value"
+                id="cumulativeGpa"
+            >
+                0.00
+            </span>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span class="title">
+                المعدل الفصلي الحالي
+            </span>
+
+            <span
+                class="value"
+                id="semesterGpa"
+            >
+                0.00
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <div class="footer">
+
+        <span>
+            Design by Dazai
+        </span>
+
+        <span>
+            Instagram:
+
+            <a
+                href="https://instagram.com/t_om_s1"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                @t_om_s1
+            </a>
+
+        </span>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       ADD COURSE
+    ========================= */
+
+    function addCourse() {
+
+        const list =
+            document.getElementById('coursesList');
+
+        const row =
+            document.createElement('div');
+
+        row.className = 'course-row';
+
+
+        row.innerHTML = `
+
+            <button
+                class="btn-delete"
+                onclick="removeCourse(this)"
+            >
+
+                <i class="fa-solid fa-trash-can"></i>
+
+                حذف
+
+            </button>
+
+
+            <input
+                type="number"
+                class="course-hours"
+                placeholder="الساعات"
+                value="3"
+                min="1"
+                max="6"
+            >
+
+
+            <select class="course-grade">
+
+                <option value="4.0">
+                    A+ (4.0)
+                </option>
+
+                <option value="3.75">
+                    A (3.75)
+                </option>
+
+                <option value="3.5">
+                    B+ (3.5)
+                </option>
+
+                <option value="3.0">
+                    B (3.0)
+                </option>
+
+                <option value="2.5">
+                    C+ (2.5)
+                </option>
+
+                <option value="2.0">
+                    C (2.0)
+                </option>
+
+                <option value="1.5">
+                    D+ (1.5)
+                </option>
+
+                <option value="1.0">
+                    D (1.0)
+                </option>
+
+                <option value="0.0">
+                    F (0.0)
+                </option>
+
+            </select>
+
+
+            <input
+                type="text"
+                class="course-name"
+                placeholder="اسم المادة"
+            >
+
+        `;
+
+
+        list.appendChild(row);
+
+    }
+
+
+    /* =========================
+       REMOVE COURSE
+    ========================= */
+
+    function removeCourse(btn) {
+
+        const rows =
+            document.querySelectorAll('.course-row');
+
+
+        if (rows.length > 1) {
+
+            btn.closest('.course-row').remove();
+
+        } else {
+
+            alert(
+                'يجب أن تبقى مادة واحدة على الأقل'
+            );
+
         }
 
-        function removeCourse(btn) {
-            const rows = document.querySelectorAll('.course-row');
-            if (rows.length > 1) {
-                btn.closest('.course-row').remove();
-            } else {
-                alert('يجب أن تبقى مادة واحدة على الأقل');
-            }
+    }
+
+
+    /* =========================
+       CALCULATE GPA
+    ========================= */
+
+    function calculateGpa() {
+
+        const rows =
+            document.querySelectorAll('.course-row');
+
+
+        let currentPoints = 0;
+
+        let currentHours = 0;
+
+
+        /*
+         * حساب نقاط وساعات الفصل الحالي
+         */
+
+        rows.forEach(row => {
+
+            const hours =
+                parseFloat(
+                    row.querySelector(
+                        '.course-hours'
+                    ).value
+                ) || 0;
+
+
+            const grade =
+                parseFloat(
+                    row.querySelector(
+                        '.course-grade'
+                    ).value
+                ) || 0;
+
+
+            currentPoints +=
+                hours * grade;
+
+
+            currentHours +=
+                hours;
+
+        });
+
+
+        /*
+         * حساب المعدل الفصلي
+         */
+
+        const semesterGpa =
+            currentHours > 0
+                ? currentPoints / currentHours
+                : 0;
+
+
+        document.getElementById(
+            'semesterGpa'
+        ).innerText =
+            semesterGpa.toFixed(2);
+
+
+        /*
+         * قراءة بيانات الفصول السابقة
+         */
+
+        const prevGpa =
+            parseFloat(
+                document.getElementById(
+                    'prevGpa'
+                ).value
+            );
+
+
+        const prevHours =
+            parseFloat(
+                document.getElementById(
+                    'prevHours'
+                ).value
+            );
+
+
+        const prevPoints =
+            parseFloat(
+                document.getElementById(
+                    'prevPoints'
+                ).value
+            );
+
+
+        /*
+         * البداية تكون بالفصل الحالي
+         */
+
+        let totalPoints =
+            currentPoints;
+
+
+        let totalHours =
+            currentHours;
+
+
+        /*
+         * الحالة الأولى:
+         *
+         * المستخدم أدخل:
+         * إجمالي النقاط + الساعات
+         */
+
+        if (
+            !isNaN(prevPoints) &&
+            !isNaN(prevHours)
+        ) {
+
+            totalPoints +=
+                prevPoints;
+
+
+            totalHours +=
+                prevHours;
+
         }
 
-        function calculateGpa() {
-            const rows = document.querySelectorAll('.course-row');
-            let currentPoints = 0;
-            let currentHours = 0;
 
-            rows.forEach(row => {
-                const hours = parseFloat(row.querySelector('.course-hours').value) || 0;
-                const grade = parseFloat(row.querySelector('.course-grade').value) || 0;
-                currentPoints += hours * grade;
-                currentHours += hours;
-            });
+        /*
+         * الحالة الثانية:
+         *
+         * المستخدم أدخل:
+         * المعدل السابق + الساعات
+         */
 
-            const semGpa = currentHours > 0 ? (currentPoints / currentHours) : 0;
-            document.getElementById('semesterGpa').innerText = semGpa.toFixed(2);
+        else if (
+            !isNaN(prevGpa) &&
+            !isNaN(prevHours)
+        ) {
 
-            const prevGpaInput = parseFloat(document.getElementById.id = 'prevGpa'.value) || document.getElementById('prevGpa').value;
-            const prevHoursInput = parseFloat(document.getElementById('prevHours').value);
-            const prevPointsInput = parseFloat(document.getElementById('prevPoints').value);
-            const prevGpaVal = parseFloat(document.getElementById('prevGpa').value);
+            totalPoints +=
+                prevGpa * prevHours;
 
-            let totalPoints = currentPoints;
-            let totalHours = currentHours;
 
-            if (!isNaN(prevHoursInput) && !isNaN(prevPointsInput)) {
-                totalPoints += prevPointsInput;
-                totalHours += prevHoursInput;
-            } else if (!isNaN(prevGpaVal) && !isNaN(prevHoursInput)) {
-                totalPoints += (prevGpaVal * prevHoursInput);
-                totalHours += prevHoursInput;
-            }
+            totalHours +=
+                prevHours;
 
-            const cumulativeGpa = totalHours > 0 ? (totalPoints / totalHours) : semGpa;
-            document.getElementById('cumulativeGpa').innerText = cumulativeGpa.toFixed(2);
-        }
-    </script>
-</body>
-</html>
+    
